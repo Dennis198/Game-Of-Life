@@ -1,0 +1,20 @@
+.game_canvas__2dplane{
+    border: 2px solid black;
+}
+
+.game__resolution__slider{
+    margin: 0 auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.game__resolution__slider__label{
+    width: 100%;
+    margin-left: 20px;
+    margin-bottom: -30px;
+}
+
+.game__resolution__slider__label >h4{
+    margin-bottom: -5px;
+}

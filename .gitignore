@@ -1,0 +1,22 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+.vscode
+
+# dependencies
+game-of-life/node_modules
+game-of-life/.pnp
+game-of-life/.pnp.js
+
+# testing
+game-of-life/coverage
+
+# misc
+game-of-life.DS_Store
+game-of-life.env.local
+game-of-life.env.development.local
+game-of-life.env.test.local
+game-of-life.env.production.local
+
+game-of-life/npm-debug.log*
+game-of-life/yarn-debug.log*
+game-of-life/yarn-error.log*
