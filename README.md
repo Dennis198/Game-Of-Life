@@ -1,6 +1,7 @@
 # Conways's Game of Life
 
 A web-based animation tool to visualize Conways's Game of Life.
+Different Game Rules included (Original (23/3), Copy World (1357/1357),...)
 
 ![](images/IMG_ReadMe.PNG)
 

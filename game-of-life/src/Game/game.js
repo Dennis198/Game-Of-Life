@@ -66,17 +66,33 @@ const CANVAS_HEIGHT=380;
 const DEFAULT_RESOLUTION=10;
 const DEFAULT_SPEED=100;
 
+//Rules RULE_'Numbers of living neighbours required to survive'_'Number of living Neighbours to get retrived'
+// E.g. RULE_23_3 Means: 
+//Living Cells with 2 OR 3 Living Neighbours gonna Survive
+//Dead Cells with 3 Living Neighbours gonna Live in the next generation
+const RULE_ORIGINAL=0; //RULE_23_3
+const RULE_1357_1357=1;
+const RULE_3_3=2;
+const RULE_13_3=3;
+const RULE_34_3=4;
+const RULE_35_3=5;
+const RULE_2_3=6;
+const RULE_24_3=7;
+const RULE_245_3=8;
+const RULE_125_36=9;
+
 export default class Game extends React.Component{
     intervalID=0;
     constructor(props){
         super(props);
         this.state = {
-            field: new Field(CANVAS_WIDTH/DEFAULT_RESOLUTION,CANVAS_HEIGHT/DEFAULT_RESOLUTION,DEFAULT_RESOLUTION),
+            field: new Field(CANVAS_WIDTH/DEFAULT_RESOLUTION,CANVAS_HEIGHT/DEFAULT_RESOLUTION,DEFAULT_RESOLUTION, RULE_ORIGINAL),
             mouseDown: false,
             resolution: DEFAULT_RESOLUTION,
             isRunning:false,
             generationCount:0, 
             speed: DEFAULT_SPEED,
+            rule: RULE_ORIGINAL,
         }
     }
 
@@ -111,7 +127,7 @@ export default class Game extends React.Component{
 
     //Resets the Game of Life to the initial state
     clear(){
-        this.setState({generationCount:0,field: new Field(Math.ceil(CANVAS_WIDTH/this.state.resolution),Math.ceil(CANVAS_HEIGHT/this.state.resolution),this.state.resolution)});
+        this.setState({generationCount:0,field: new Field(Math.ceil(CANVAS_WIDTH/this.state.resolution),Math.ceil(CANVAS_HEIGHT/this.state.resolution),this.state.resolution, this.state.rule)});
         setTimeout(() => {
             this.state.field.draw();
         },10);
@@ -131,7 +147,7 @@ export default class Game extends React.Component{
 
      //Handles the Resolution Change (Slider) and creates a new Field
      handleResolutionChange(e, val){
-        this.setState({resolution: val, field: new Field(Math.ceil(CANVAS_WIDTH/val),Math.ceil(CANVAS_HEIGHT/val),val)});
+        this.setState({resolution: val, field: new Field(Math.ceil(CANVAS_WIDTH/val),Math.ceil(CANVAS_HEIGHT/val),val, this.state.rule)});
         setTimeout(() => {
             this.state.field.draw();
         },10);
@@ -160,6 +176,12 @@ export default class Game extends React.Component{
         this.setState({mouseDown: !this.state.mouseDown})
     }
 
+    //Handles the Switch of the Rules for the Gamej
+    switchRule(e){
+      this.setState({rule: parseInt(e.target.value)});
+      this.state.field.setRule(parseInt(e.target.value));
+    }
+
     render(){
         const {isRunning, generationCount}= this.state;
         return(
@@ -170,6 +192,18 @@ export default class Game extends React.Component{
                 <Button variant="outlined" disabled={isRunning} onClick={() => this.nextStep()}>Next Step</Button>
                 <Button variant="outlined" onClick={() => this.randomPopulation()}>Random Population</Button>
                 <Button variant="outlined" onClick={() => this.clear()}>Clear</Button>
+                <select className="select-css" onChange={(e) => this.switchRule(e)}>
+                    <option value={RULE_ORIGINAL}>Original Rule (23/2)</option>
+                    <option value={RULE_1357_1357}>Copy World 1357/1357</option>
+                    <option value={RULE_3_3}>3/3</option>
+                    <option value={RULE_13_3}>13/3</option>
+                    <option value={RULE_34_3}>34/3</option>
+                    <option value={RULE_35_3}>35/3</option>
+                    <option value={RULE_2_3}>2/3</option>
+                    <option value={RULE_24_3}>23/3</option>
+                    <option value={RULE_245_3}>245/3</option>
+                    <option value={RULE_125_36}>125/36</option>
+                </select>
                 <div className="game__resolution__slider">
                     <div className="game__resolution__slider__label">
                         <h4>Resolution</h4>
